@@ -1,31 +1,33 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model, models, InferSchemaType } from "mongoose";
 import bcrypt from "bcryptjs";
 
-export interface IUser {
-  email: string;
-  password: string;
-  _id?: mongoose.Types.ObjectId;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema(
   {
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    id: {
+      type: mongoose.Types.ObjectId,
+      required: false,
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+  if (!this.isModified("password")) return next;
+  this.password = await bcrypt.hash(this.password, 10); //override kardo ye value ko
   next();
 });
 
-const User = models?.User || model<IUser>("User", userSchema);
+type UserType = InferSchemaType<typeof userSchema>;
+
+const User = models?.User || model<UserType>("User", userSchema);
 
 export default User;
