@@ -8,3 +8,7 @@ declare global {
 }
 
 export {};
+
+
+//global bas declare hota hai export nhi 
+//mongoose variable add kiya jismein we are expecting 2 values ==> connection and promise of type connection 
