@@ -21,7 +21,7 @@ const videoSchema = new Schema(
     },
     thumbnailUrl: {
       type: String,
-      required: false,
+      required: true,
     },
     id: {
       type: mongoose.Types.ObjectId,
