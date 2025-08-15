@@ -31,11 +31,9 @@ const videoSchema = new Schema(
       type: Boolean,
     },
     transformations: {
-      type: {
-        width: { type: Number, required: true },
-        height: { type: Number, required: true },
-        quality: { type: Number, required: false },
-      },
+      width: { type: Number, default: VIDEO_DIMENSIONS.height },
+      height: { type: Number, default: VIDEO_DIMENSIONS.width },
+      quality: { type: Number, required: false, min: 1, max: 100 },
       required: true,
     },
   },
@@ -45,3 +43,5 @@ const videoSchema = new Schema(
 type videoType = InferSchemaType<typeof videoSchema>;
 
 const Video = models?.Video || model<videoType>("Video", videoSchema);
+
+export default Video;
