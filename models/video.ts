@@ -40,7 +40,7 @@ const videoSchema = new Schema(
   { timestamps: true }
 );
 
-type videoType = InferSchemaType<typeof videoSchema>;
+export type videoType = InferSchemaType<typeof videoSchema>;
 
 const Video = models?.Video || model<videoType>("Video", videoSchema);
 
